@@ -325,13 +325,13 @@ module.exports = function() {
 		switch (this.memory.role) {
 			case "supplier": {
 				if (this.store[RESOURCE_ENERGY] <= this.store.getCapacity()/10) {
-					this.travelTo(target, {ignoreCreeps: false, offRoad: true});
+					this.travelTo(target, {offRoad: true});
 				} else
 				if (this.store[RESOURCE_ENERGY] <= this.store.getCapacity()/2) {
-					this.travelTo(target, {ignoreCreeps: false, ignoreRoads: true});
+					this.travelTo(target, {ignoreRoads: true});
 				}
 				else {
-					this.travelTo(target, {ignoreCreeps: false});
+					this.travelTo(target);
 				}
 				break;
 			}
