@@ -315,7 +315,7 @@ module.exports = function() {
 		}
 		if (energySupply && energySupply.energy > 0) {
 			if (this.harvest(energySupply) == ERR_NOT_IN_RANGE) {
-				this.travelTo(energySupply,{ignoreCreeps: false});
+				this.travelTo(energySupply);
 			}
 		}
 	}
