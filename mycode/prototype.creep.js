@@ -350,13 +350,13 @@ module.exports = function() {
 			//set target to source
 			target = Game.getObjectById(this.memory.source);
 			//set targetRoom in memory to room of target, if it didn't exist
-			if (!creep.memory.targetRoom) {
-				creep.memory.targetRoom = target.room.name;
+			if (!this.memory.targetRoom) {
+				this.memory.targetRoom = target.room.name;
 			}
 			//get targetRoom
-			let targetRoom = Game.rooms[creep.memory.targetRoom];
+			let targetRoom = Game.rooms[this.memory.targetRoom];
 			//if creep is in targetRoom
-			if (creep.room == targetRoom) {
+			if (this.room == targetRoom) {
 				//if source isn't empty
 				if (target.energy > 0) {
 					//harvest source, if it isn't in range move to it
@@ -366,7 +366,7 @@ module.exports = function() {
 				}
 			//otherwise move to room the source is in
 			} else {
-				creep.travelTo(new RoomPosition(25, 25, creep.memory.targetRoom));
+				this.travelTo(new RoomPosition(25, 25, this.memory.targetRoom));
 			}
 		//if wasn't assigned a source mine closest available one
 		} else {
