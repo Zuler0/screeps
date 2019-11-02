@@ -6,7 +6,7 @@ const roleHarvester = {
 		if (!creep.memory.source) {
 			creep.getTarget();
 		}
-		if (creep.store.getCapacity() == 0 || creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
+		if (creep.store.getCapacity() !> 0 || creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
 			creep.mine();
 		} else {
 			let structByType = creep.room.structByType;
