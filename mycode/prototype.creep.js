@@ -45,13 +45,13 @@ module.exports = function() {
 						let maintain = global.maintainFlags;
 						for (let flag of maintain) {
 							switch (flag.memory.repairers) {
-								case 1:{
-									break;
-								}
 								case 0: {
 									this.memory.flag = flag.name;
 									++flag.memory.repairers;
 									break flagTarget;
+								}
+								case 1:{
+									break;
 								}
 								default: {
 									this.memory.flag = flag.name;
@@ -84,13 +84,13 @@ module.exports = function() {
 					let claim = global.claimFlags;
 					for (let flag of claim) {
 						switch (flag.memory.claimers) {
-							case 1:{
-								break;
-							}
 							case 0: {
 								this.memory.flag = flag.name;
 								++flag.memory.claimers;
 								break flagTarget;
+							}
+							case 1:{
+								break;
 							}
 							default: {
 								this.memory.flag = flag.name;
@@ -102,13 +102,13 @@ module.exports = function() {
 					let reserve = global.reserveFlags;
 					for (let flag of reserve) {
 						switch (flag.memory.claimers) {
-							case 1:{
-								break;
-							}
 							case 0: {
 								this.memory.flag = flag.name;
 								++flag.memory.claimers;
 								break flagTarget;
+							}
+							case 1:{
+								break;
 							}
 							default: {
 								this.memory.flag = flag.name;
@@ -148,13 +148,13 @@ module.exports = function() {
 					let maintain = global.maintainFlags;
 					for (let flag of maintain) {
 						switch (flag.memory.builders) {
-							case 1:{
-								break;
-							}
 							case 0: {
 								this.memory.flag = flag.name;
 								++flag.memory.builders;
 								break flagTarget;
+							}
+							case 1:{
+								break;
 							}
 							default: {
 								this.memory.flag = flag.name;
@@ -196,6 +196,43 @@ module.exports = function() {
 					}
 				}
 			}
+			case "remoteHarvester": {
+				sourceTarget: {
+					flagTarget: {
+						let harvest = global.harvestFlags;
+						for (let flag of harvest) {
+							if (!flag.memory.harvesters) {
+								this.memory.flag = flag.name;
+								flag.memory.harvesters = 1;
+								break flagTarget;
+							}
+							else if (flag.memory.harvesters < flag.room.sources.length) {
+								this.memory.flag = flag.name;
+								++flag.memory.harvesters;
+								break flagTarget;
+							}
+						}
+					}
+					let flag = Game.flags[this.memory.flag];
+					for (let source of flag.room.sources) {
+						switch (source.memory.harvesters) {
+							case 0: {
+								this.memory.source = source.id;
+								++source.memory.harvesters;
+								break sourceTarget;
+							}
+							case 1:{
+								break;
+							}
+							default: {
+								this.memory.source = source.id;
+								source.memory.harvesters = 1;
+								break sourceTarget;
+							}
+						}
+					}
+				}
+			}
 		}
 		if (this.memory.target) {
 			this.memory.targetRoom = Game.getObjectById(this.memory.target).room.name;
@@ -216,8 +253,8 @@ module.exports = function() {
 		//run based off role
 		switch (this.memory.role) {
 			case "supplier": {//if supplier
-				let energySupplies;
-				let energySupply;
+				let targets;
+				let target;
 				//interate through sources
 				if (!this.memory.source) {
 					sourceTarget: {
@@ -243,62 +280,62 @@ module.exports = function() {
 				let source = Game.getObjectById(this.memory.source);
 				//get dropedEnergy
 				if (dropedEnergy.length) {
-					energySupply = this.pos.findClosestByRange(dropedEnergy);
-					let amount = this.store.getFreeCapacity() - energySupply.amount;
-					if (this.pickup(energySupply, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-						this.goTo(energySupply);
+					target = this.pos.findClosestByRange(dropedEnergy);
+					let amount = this.store.getFreeCapacity() - target.amount;
+					if (this.pickup(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+						this.goTo(target);
 					}
 					if (this.store.getFreeCapacity() > amount) {
-						energySupply = this.pos.findClosestByRange(containers);
-						this.withdraw(energySupply, RESOURCE_ENERGY, amount);
+						target = this.pos.findClosestByRange(containers);
+						this.withdraw(target, RESOURCE_ENERGY, amount);
 					}
 				}//if no dropedEnergy get tombstones with energy
 				else if (tombstones.length) {
-					energySupplies = tombstones;
+					targets = tombstones;
 				}
 				//if no tombstones get ruins with energy
 				else if (ruins.length) {
-					energySupplies = ruins;
+					targets = ruins;
 				}
 				//otherwise get containers with energy
 				else if (source) {
-					energySupplies = source.pos.findInRange(_.filter(containers, (s) => s.store[RESOURCE_ENERGY] >= Math.min(200, this.store.getFreeCapacity(RESOURCE_ENERGY))),1);
+					targets = source.pos.findInRange(_.filter(containers, (s) => s.store[RESOURCE_ENERGY] >= Math.min(200, this.store.getFreeCapacity(RESOURCE_ENERGY))),1);
 				}
 				//if there is a target list find closest and get energy from it
-				if (energySupplies) {
-					energySupply = this.pos.findClosestByRange(energySupplies);
-					if (this.withdraw(energySupply, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-						this.goTo(energySupply);
+				if (targets) {
+					target = this.pos.findClosestByRange(targets);
+					if (this.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+						this.goTo(target);
 					}
 				}
 				break;
 			}
-			default: {
-				let energySupplies;
-				let energySupply;
+			default: { //if not supplier
+				let targets;
+				let target;
 				if (ruins.length) {
-					energySupplies = ruins;
+					targets = ruins;
 				}
 				else if (storage) {
-					energySupply = storage;
+					target = storage;
 				}
 				else if (containers.length) {
-					energySupplies = _.filter(containers, (s) => s.store[RESOURCE_ENERGY] >= Math.min(200, this.store.getFreeCapacity(RESOURCE_ENERGY)));
+					targets = _.filter(containers, (s) => s.store[RESOURCE_ENERGY] >= Math.min(200, this.store.getFreeCapacity(RESOURCE_ENERGY)));
 				}
-				else if (!containers.length && this.pos.findClosestByPath(this.room.sources, { ignoreCreeps: false })) {
+				else if (this.pos.findClosestByPath(this.room.sources, { ignoreCreeps: false })) {
 					this.mine();
 				}
 				else if (spawns.length) {
-					energySupplies = _.filter(spawns, (s) => s.store[RESOURCE_ENERGY] >= Math.min(200, this.store.getFreeCapacity(RESOURCE_ENERGY)));
+					targets = _.filter(spawns, (s) => s.store[RESOURCE_ENERGY] >= Math.min(200, this.store.getFreeCapacity(RESOURCE_ENERGY)));
 				}
 				else {
 					this.travelTo(Game.rooms[this.memory.home].controller);
 				}
-				if (energySupplies) {
-					energySupply = this.pos.findClosestByRange(energySupplies);
+				if (targets) {
+					target = this.pos.findClosestByRange(targets);
 				}
-				if (this.withdraw(energySupply, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-					this.travelTo(energySupply, {ignoreCreeps: false});
+				if (this.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+					this.travelTo(target, {ignoreCreeps: false});
 				}
 			}
 		}
@@ -306,22 +343,45 @@ module.exports = function() {
 
 	Creep.prototype.mine =
 	function() {
-		let energySupply = null;
+		//intialize target
+		let target;
+		//if creep has source
 		if (this.memory.source) {
-			energySupply = Game.getObjectById(this.memory.source);
-		}
-		else {
-			energySupply = this.pos.findClosestByPath(this.room.sources, { ignoreCreeps: false });
-		}
-		if (energySupply && energySupply.energy > 0) {
-			if (this.harvest(energySupply) == ERR_NOT_IN_RANGE) {
-				this.travelTo(energySupply);
+			//set target to source
+			target = Game.getObjectById(this.memory.source);
+			//set targetRoom in memory to room of target, if it didn't exist
+			if (!creep.memory.targetRoom) {
+				creep.memory.targetRoom = target.room.name;
+			}
+			//get targetRoom
+			let targetRoom = Game.rooms[creep.memory.targetRoom];
+			//if creep is in targetRoom
+			if (creep.room == targetRoom) {
+				//if source isn't empty
+				if (target.energy > 0) {
+					//harvest source, if it isn't in range move to it
+					if (this.harvest(target) == ERR_NOT_IN_RANGE) {
+						this.travelTo(target);
+					}
+				}
+			//otherwise move to room the source is in
+			} else {
+				creep.travelTo(new RoomPosition(25, 25, creep.memory.targetRoom));
+			}
+		//if wasn't assigned a source mine closest available one
+		} else {
+			target = this.pos.findClosestByPath(this.room.sources, {ignoreCreeps:false});
+			if (target && target.energy > 0) {
+				if (this.harvest(target) == ERR_NOT_IN_RANGE) {
+					this.travelTo(target);
+				}
 			}
 		}
 	}
 
 	Creep.prototype.goTo =
 	function(target) {
+		//switch based off role
 		switch (this.memory.role) {
 			case "supplier": {
 				if (this.store[RESOURCE_ENERGY] <= this.store.getCapacity()/10) {
