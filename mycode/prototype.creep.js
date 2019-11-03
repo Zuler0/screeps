@@ -202,7 +202,7 @@ module.exports = function() {
 				flagTarget: {
 					let harvest = global.harvestFlags;
 					for (let flag of harvest) {
-						if (flag.memory.master == this.memory.homeroom) {
+						if (flag.memory.master == this.memory.home) {
 							if (!flag.memory.harvesters) {
 								this.memory.flag = flag.name;
 								flag.memory.harvesters = 1;
