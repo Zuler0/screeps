@@ -11,7 +11,7 @@ const roleRoom = {
 		room.damStructures = _.filter(room.structures, (s) => s.hits/s.hitsMax < 0.8);
 		room.structByType = _.groupBy(room.structures, (s) => s.structureType);
 		[room.walls, room.infrastructure] = _.partition(room.damStructures, (s) => s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART);
-		room.walls = _.sortBy(room.walls, (s) => (s.hits/Math.min(30000000, s.hitsMax)));
+		room.walls = _.sortBy(room.walls, (s) => s.hits);
 		room.infrastructure = _.sortBy(room.infrastructure, hitsPercentage);
 
 		//resource variables
@@ -21,10 +21,16 @@ const roleRoom = {
 		room.droppedRes = room.find(FIND_DROPPED_RESOURCES, {filter: (r) => r.amount > 100});
 		room.resByType = _.groupBy(room.droppedRes, (r) => r.resourceType);
 
-		//creep variables
+		//friend/foe variables
 		room.myCreeps = room.find(FIND_MY_CREEPS);
+		room.myStructures = room.find(FIND_MY_STRUCTURES);
+		room.notMyCreeps = room.find(FIND_HOSTILE_CREEPS);
+		room.notMyStructures = room.find(FIND_HOSTILE_STRUCTURES);
 		let allies =["_Lalaleyna", "Ratstail91", "Lampe", "M1kep", ];
-		room.enemyCreeps = room.find(FIND_HOSTILE_CREEPS, {filter: (c) => !allies.includes(c.owner.username)});
+		[room.allyCreeps, room.enemyCreeps] = _.partition(room.notMyCreeps, (c) => allies.includes(c.owner.username));
+		[room.allyStructures, room.enemyStructures] = _.partition(room.notMyStructures, (c) => allies.includes(c.owner.username));
+		room.friendlyCreeps = room.myCreeps.concat(room.allyCreeps);
+		room.friendlyStructures = room.myStructures.concat(room.allyStructures);
 	}
 }
 profiler.registerObject(roleRoom, 'roleRoom');
