@@ -22,7 +22,7 @@ const roleClaimer = {
 				}
 			}
 		}
-		else if (flag.room != creep.room){
+		else {
 			creep.travelTo(flag);
 		}
 	}
