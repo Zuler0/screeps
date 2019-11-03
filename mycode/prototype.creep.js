@@ -12,8 +12,8 @@ module.exports = function() {
 				let supplyTargets = (spawns.concat(extensions).concat(towers));
 				let filteredTargets = _.filter(supplyTargets, (s) => (s.store.getFreeCapacity(RESOURCE_ENERGY) > 0));
 				let targetsByType = _.groupBy(filteredTargets, (s) => s.structureType);
-				let targetSpawns = this.pos.findInRange(targetsByType[STRUCTURE_SPAWN], 25);
-				let targetExtensions = this.pos.findInRange(targetsByType[STRUCTURE_EXTENSION], 20);
+				let targetSpawns = targetsByType[STRUCTURE_SPAWN] || [];
+				let targetExtensions = targetsByType[STRUCTURE_EXTENSION] || [];
 				let targetTowers = targetsByType[STRUCTURE_TOWER] || [];
 				let target;
 				if (targetSpawns.length || targetExtensions.length) {
