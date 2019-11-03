@@ -25,23 +25,6 @@ const roleRoom = {
 		room.myCreeps = room.find(FIND_MY_CREEPS);
 		let allies =["_Lalaleyna", "Ratstail91", "Lampe", "M1kep", ];
 		room.enemyCreeps = room.find(FIND_HOSTILE_CREEPS, {filter: (c) => !allies.includes(c.owner.username)});
-
-
-		//claim ownership of flags in rooms bordering if no master room
-		let rooms = Game.map.describeExits(room.name);
-		let reserve = global.reserveFlags;
-		let harvest = global.harvestFlags;
-		let flags = reserve.concat(harvest);
-		for (let flag of flags) {
-			if (!flag.memory.master) {
-				for (let key in rooms) {
-					let roomName = rooms[key];
-					if (flag.room.name == roomName) {
-						flag.memory.master = room.name;
-					}
-				}
-			}
-		}
 	}
 }
 profiler.registerObject(roleRoom, 'roleRoom');
