@@ -45,6 +45,26 @@ module.exports.loop = function() {
 					global.attackFlags.push(flag);
 				}
 			}
+			for (let name in Game.rooms) {
+				let room = Game.rooms[name];
+				room.memory.flagCount = 0;
+				//claim ownership of flags in rooms bordering if no master room
+				let rooms = Game.map.describeExits(room.name);
+				let reserve = global.reserveFlags;
+				let harvest = global.harvestFlags;
+				let flags = reserve.concat(harvest);
+				for (let flag of flags) {
+					if (!flag.memory.master) {
+						for (let key in rooms) {
+							let roomName = rooms[key];
+							if (flag.room.name == roomName) {
+								flag.memory.master = room.name;
+								++room.memory.flagCount;
+							}
+						}
+					}
+				}
+			}
 		}
 		//iterate through rooms and create the variables
 		for (let name in Game.rooms) {
