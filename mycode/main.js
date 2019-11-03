@@ -15,7 +15,7 @@ require('prototype.spawn') ();
 require('prototype.creep') ();
 require('prototype.source') ();
 require('mem_hack') ();
-import intializeFlags from 'creeps.utils';
+import { intializeFlags, } from ('creeps.utils');
 profiler.enable();
 global.flagCount = 0;
 module.exports.loop = function() {
