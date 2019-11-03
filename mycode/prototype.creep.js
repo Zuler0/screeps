@@ -197,6 +197,7 @@ module.exports = function() {
 						}
 					}
 				}
+				break;
 			}
 			case "remoteHarvester": {
 				flagTarget: {
