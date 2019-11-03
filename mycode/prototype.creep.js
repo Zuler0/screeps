@@ -216,7 +216,7 @@ module.exports = function() {
 									case 0: {
 										this.memory.source = source.id;
 										++source.memory.harvesters;
-										break sourceTarget;
+										break flagTarget;
 									}
 									case 1:{
 										break;
@@ -224,7 +224,7 @@ module.exports = function() {
 									default: {
 										this.memory.source = source.id;
 										source.memory.harvesters = 1;
-										break sourceTarget;
+										break flagTarget;
 									}
 								}
 							}
