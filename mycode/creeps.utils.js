@@ -1,5 +1,5 @@
 module.exports = function () {
-	this.intializeFlags = function () {
+	global.intializeFlags = function () {
 		global.reserveFlags = [];
 		global.maintainFlags = [];
 		global.claimFlags = [];
