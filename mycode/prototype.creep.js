@@ -362,9 +362,12 @@ module.exports = function() {
 			if (this.room == targetRoom) {
 				//if source isn't empty
 				if (target.energy > 0) {
+					//get struct vars
+					let structByType = creep.room.structByType;
+					let containers = structByType[STRUCTURE_CONTAINER] || [];
 					//harvest source, if it isn't in range move to it
 					if (this.harvest(target) == ERR_NOT_IN_RANGE) {
-						this.travelTo(target);
+						this.travelTo(target.pos.findInRange(containers, 1)[0]);
 					}
 				}
 			//otherwise move to room the source is in
