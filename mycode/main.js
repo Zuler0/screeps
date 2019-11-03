@@ -15,14 +15,14 @@ require('prototype.spawn') ();
 require('prototype.creep') ();
 require('prototype.source') ();
 require('mem_hack') ();
-import intializeFlags() from 'creeps.utils.js';
+//import intializeFlags() from 'creeps.utils.js';
 profiler.enable();
 global.flagCount = 0;
 module.exports.loop = function() {
 	global.mem_hack();
 	profiler.wrap(function() {
 		if (Object.keys(Game.flags).length != global.flagCount) {
-			intializeFlags();
+			//intializeFlags();
 		}
 		//iterate through rooms and create the variables
 		for (let name in Game.rooms) {
