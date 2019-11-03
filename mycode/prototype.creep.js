@@ -101,7 +101,7 @@ module.exports = function() {
 					}
 					let reserve = global.reserveFlags;
 					for (let flag of reserve) {
-						if (flag.memory.master == this.memory.homeroom) {
+						if (flag.memory.master == this.memory.home) {
 							switch (flag.memory.claimers) {
 								case 0: {
 									this.memory.flag = flag.name;
