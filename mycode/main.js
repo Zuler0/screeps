@@ -10,19 +10,19 @@ const roleRoom = require('role.room');
 const roleRanger = require('role.ranger');
 const mem_clear = require('mem_clear');
 const profiler = require('screeps-profiler');
-const util = require('creeps.utils');
 const Traveler = require('Traveler');
 require('prototype.spawn') ();
 require('prototype.creep') ();
 require('prototype.source') ();
 require('mem_hack') ();
+import {intializeFlags} from 'creeps.utils';
 profiler.enable();
 global.flagCount = 0;
 module.exports.loop = function() {
 	global.mem_hack();
 	profiler.wrap(function() {
 		if (Object.keys(Game.flags).length != global.flagCount) {
-			util.intializeFlags();
+			intializeFlags();
 		}
 		//iterate through rooms and create the variables
 		for (let name in Game.rooms) {
