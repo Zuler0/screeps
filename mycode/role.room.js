@@ -28,13 +28,14 @@ const roleRoom = {
 
 
 		//claim ownership of flags in rooms bordering if no master room
-		let exits = Game.map.describeExits(room.name);
+		let rooms = Game.map.describeExits(room.name);
 		let reserve = global.reserveFlags;
 		let harvest = global.harvestFlags;
 		let flags = reserve.concat(harvest);
 		for (let flag of flags) {
 			if (!flag.memory.master) {
-				for (let roomName in exits) {
+				for (let key in rooms) {
+					let roomName = rooms[key];
 					if (flag.room.name == roomName) {
 						flag.memory.master = room.name;
 					}
