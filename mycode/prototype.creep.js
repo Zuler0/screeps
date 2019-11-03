@@ -101,19 +101,21 @@ module.exports = function() {
 					}
 					let reserve = global.reserveFlags;
 					for (let flag of reserve) {
-						switch (flag.memory.claimers) {
-							case 0: {
-								this.memory.flag = flag.name;
-								++flag.memory.claimers;
-								break flagTarget;
-							}
-							case 1:{
-								break;
-							}
-							default: {
-								this.memory.flag = flag.name;
-								flag.memory.claimers = 1;
-								break flagTarget;
+						if (flag.memory.master == this.memory.homeroom) {
+							switch (flag.memory.claimers) {
+								case 0: {
+									this.memory.flag = flag.name;
+									++flag.memory.claimers;
+									break flagTarget;
+								}
+								case 1:{
+									break;
+								}
+								default: {
+									this.memory.flag = flag.name;
+									flag.memory.claimers = 1;
+									break flagTarget;
+								}
 							}
 						}
 					}
@@ -201,15 +203,17 @@ module.exports = function() {
 					flagTarget: {
 						let harvest = global.harvestFlags;
 						for (let flag of harvest) {
-							if (!flag.memory.harvesters) {
-								this.memory.flag = flag.name;
-								flag.memory.harvesters = 1;
-								break flagTarget;
-							}
-							else if (flag.memory.harvesters < flag.room.sources.length) {
-								this.memory.flag = flag.name;
-								++flag.memory.harvesters;
-								break flagTarget;
+							if (flag.memory.master == this.memory.homeroom) {
+								if (!flag.memory.harvesters) {
+									this.memory.flag = flag.name;
+									flag.memory.harvesters = 1;
+									break flagTarget;
+								}
+								else if (flag.memory.harvesters < flag.room.sources.length) {
+									this.memory.flag = flag.name;
+									++flag.memory.harvesters;
+									break flagTarget;
+								}
 							}
 						}
 					}
@@ -236,6 +240,9 @@ module.exports = function() {
 		}
 		if (this.memory.target) {
 			this.memory.targetRoom = Game.getObjectById(this.memory.target).room.name;
+		}
+		else if (this.memory.source) {
+			this.memory.targetRoom = Game.getObjectById(this.memory.source).room.name;
 		}
 	}
 
