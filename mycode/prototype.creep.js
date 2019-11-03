@@ -199,39 +199,34 @@ module.exports = function() {
 				}
 			}
 			case "remoteHarvester": {
-				sourceTarget: {
-					flagTarget: {
-						let harvest = global.harvestFlags;
-						for (let flag of harvest) {
-							if (flag.memory.master == this.memory.homeroom) {
-								if (!flag.memory.harvesters) {
-									this.memory.flag = flag.name;
-									flag.memory.harvesters = 1;
-									break flagTarget;
+				flagTarget: {
+					let harvest = global.harvestFlags;
+					for (let flag of harvest) {
+						if (flag.memory.master == this.memory.homeroom) {
+							if (!flag.memory.harvesters) {
+								this.memory.flag = flag.name;
+								flag.memory.harvesters = 1;
+							}
+							else if (flag.memory.harvesters < flag.room.sources.length) {
+								this.memory.flag = flag.name;
+								++flag.memory.harvesters;
+							}
+							for (let source of flag.room.sources) {
+								switch (source.memory.harvesters) {
+									case 0: {
+										this.memory.source = source.id;
+										++source.memory.harvesters;
+										break sourceTarget;
+									}
+									case 1:{
+										break;
+									}
+									default: {
+										this.memory.source = source.id;
+										source.memory.harvesters = 1;
+										break sourceTarget;
+									}
 								}
-								else if (flag.memory.harvesters < flag.room.sources.length) {
-									this.memory.flag = flag.name;
-									++flag.memory.harvesters;
-									break flagTarget;
-								}
-							}
-						}
-					}
-					let flag = Game.flags[this.memory.flag];
-					for (let source of flag.room.sources) {
-						switch (source.memory.harvesters) {
-							case 0: {
-								this.memory.source = source.id;
-								++source.memory.harvesters;
-								break sourceTarget;
-							}
-							case 1:{
-								break;
-							}
-							default: {
-								this.memory.source = source.id;
-								source.memory.harvesters = 1;
-								break sourceTarget;
 							}
 						}
 					}
