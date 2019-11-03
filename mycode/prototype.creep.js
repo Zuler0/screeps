@@ -367,7 +367,7 @@ module.exports = function() {
 					let containers = structByType[STRUCTURE_CONTAINER] || [];
 					//harvest source, if it isn't in range move to it
 					if (this.harvest(target) == ERR_NOT_IN_RANGE) {
-						this.travelTo(target.pos.findInRange(containers, 1)[0]);
+						this.travelTo(target.pos.findInRange(containers, 1)[0], {range: 0});
 					}
 				}
 			//otherwise move to room the source is in
