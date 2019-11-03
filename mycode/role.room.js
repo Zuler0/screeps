@@ -31,13 +31,13 @@ const roleRoom = {
 		let reserve = global.reserveFlags;
 		for (let flag of reserve) {
 			if (!flag.memory.master) {
-				flag.memory.master = this.name;
+				flag.memory.master = room.name;
 			}
 		}
 		let harvest = global.harvestFlags;
 		for (let flag of harvest) {
 			if (!flag.memory.master) {
-				flag.memory.master = this.name;
+				flag.memory.master = room.name;
 			}
 		}
 	}
