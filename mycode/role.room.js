@@ -28,10 +28,10 @@ const roleRoom = {
 
 
 		//claim ownership of flags in rooms bordering if no master room
+		let exits = Game.map.describeExits(room.name);
 		let reserve = global.reserveFlags;
 		for (let flag of reserve) {
 			if (!flag.memory.master) {
-				let exits = Game.map.describeExits(room.name);
 				for (let roomName in exits) {
 					if (flag.room.name == roomName) {
 						flag.memory.master = room.name;
@@ -42,8 +42,11 @@ const roleRoom = {
 		let harvest = global.harvestFlags;
 		for (let flag of harvest) {
 			if (!flag.memory.master) {
-				flag.room
-				flag.memory.master = room.name;
+				for (let roomName in exits) {
+					if (flag.room.name == roomName) {
+						flag.memory.master = room.name;
+					}
+				}
 			}
 		}
 	}
