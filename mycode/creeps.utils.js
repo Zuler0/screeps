@@ -1,4 +1,4 @@
-function intializeFlags() {
+export function intializeFlags() {
 	global.reserveFlags = [];
 	global.maintainFlags = [];
 	global.claimFlags = [];
@@ -44,4 +44,3 @@ function intializeFlags() {
 		}
 	}
 }
-export {intializeFlags};
