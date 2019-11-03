@@ -8,9 +8,8 @@ const roleHarvester = {
 		}
 		if (creep.store.getUsedCapacity() < creep.store.getCapacity()) {
 			let structByType = creep.room.structByType;
-			let containers = structByType[STRUCTURE_CONTAINER] || [];
 			let spawns = structByType[STRUCTURE_SPAWN] || [];
-			let targets = containers.concat(spawns);
+			let targets = spawns;
 			if (targets.length > 0) {
 				let target = creep.pos.findClosestByRange(targets, {filter: (s) => s.store.getFreeCapacity(RESOURCE_ENERGY) > 0});
 				if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
