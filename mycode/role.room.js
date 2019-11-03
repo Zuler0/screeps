@@ -31,12 +31,18 @@ const roleRoom = {
 		let reserve = global.reserveFlags;
 		for (let flag of reserve) {
 			if (!flag.memory.master) {
-				flag.memory.master = room.name;
+				let exits = Game.map.describeExits(room.name);
+				for (let roomName in exits) {
+					if (flag.room.name == roomName) {
+						flag.memory.master = room.name;
+					}
+				}
 			}
 		}
 		let harvest = global.harvestFlags;
 		for (let flag of harvest) {
 			if (!flag.memory.master) {
+				flag.room
 				flag.memory.master = room.name;
 			}
 		}
