@@ -34,11 +34,6 @@ const roleBuilder = {
 					if (creep.build(target) == ERR_NOT_IN_RANGE) {
 						creep.travelTo(target, {range: 3});
 					}
-				} else {
-					if (!creep.memory.targetRoom) {
-						creep.memory.targetRoom = target.room.name;
-					}
-					creep.travelTo(new RoomPosition(25, 25, creep.memory.targetRoom));
 				}
 			}//if flag is set in memory and no target and there is stuff to build in its room move to it
 			else if (flag && !creep.memory.target && flag.room != creep.room) {
