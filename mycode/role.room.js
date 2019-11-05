@@ -11,8 +11,10 @@ const roleRoom = {
 		room.damStructures = _.filter(room.structures, (s) => s.hits/s.hitsMax < 0.8);
 		room.structByType = _.groupBy(room.structures, (s) => s.structureType);
 		room.links = room.structByType[STRUCTURE_LINK];
-		let storage = Game.rooms[room.name].storage;
-		room.storageLink = storage.pos.findClosestByRange(room.links);
+		let storage = room.storage;
+		if (storage) {
+			room.storageLink = storage.pos.findClosestByRange(room.links);
+		}
 		[room.walls, room.infrastructure] = _.partition(room.damStructures, (s) => s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART);
 		room.walls = _.sortBy(room.walls, (s) => s.hits);
 		room.infrastructure = _.sortBy(room.infrastructure, hitsPercentage);
