@@ -147,7 +147,7 @@ module.exports = function() {
 							targets = flag.room.constuctSites;
 							if (targets.length && flag.memory.master == this.memory.home && flag.memory.builders != 1) {
 								this.memory.flag = flag.name;
-								this.memory.target = infrastructure[0].id;
+								this.memory.target = targets[0].id;
 								flag.memory.builders = 1;
 								break flagTarget;
 							}
