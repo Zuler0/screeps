@@ -47,13 +47,15 @@ module.exports = function() {
 					}
 					let maintain = global.maintainFlags;
 					for (let flag of maintain) {
-						infrastructure = flag.room.infrastructure;
-						if (infrastructure.length && flag.memory.master == this.memory.home && flag.memory.repairers != 1) {
-							this.memory.flag = flag.name;
-							this.memory.target = infrastructure[0].id;
-							this.memory.targetOldHits = infrastructure[0].hits;
-							flag.memory.repairers = 1;
-							break flagTarget;
+						if (flag.room) {
+							infrastructure = flag.room.infrastructure;
+							if (infrastructure.length && flag.memory.master == this.memory.home && flag.memory.repairers != 1) {
+								this.memory.flag = flag.name;
+								this.memory.target = infrastructure[0].id;
+								this.memory.targetOldHits = infrastructure[0].hits;
+								flag.memory.repairers = 1;
+								break flagTarget;
+							}
 						}
 					}
 				}
@@ -141,13 +143,15 @@ module.exports = function() {
 					}
 					let maintain = global.maintainFlags;
 					for (let flag of maintain) {
-						infrastructure = flag.room.infrastructure;
-						if (infrastructure.length && flag.memory.master == this.memory.home && flag.memory.builders != 1) {
-							this.memory.flag = flag.name;
-							this.memory.target = infrastructure[0].id;
-							this.memory.targetOldHits = infrastructure[0].hits;
-							flag.memory.builders = 1;
-							break flagTarget;
+						if (flag.room) {
+							infrastructure = flag.room.infrastructure;
+							if (infrastructure.length && flag.memory.master == this.memory.home && flag.memory.builders != 1) {
+								this.memory.flag = flag.name;
+								this.memory.target = infrastructure[0].id;
+								this.memory.targetOldHits = infrastructure[0].hits;
+								flag.memory.builders = 1;
+								break flagTarget;
+							}
 						}
 					}
 				}
