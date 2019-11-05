@@ -41,8 +41,10 @@ module.exports = function() {
 					break;
 				}
 				flagTarget: {
-					Game.flags[this.memory.flag].memory.repairers = 0;
-					delete this.memory.flag;
+					if (this.memory.flag) {
+						Game.flags[this.memory.flag].memory.repairers = 0;
+						delete this.memory.flag;
+					}
 					let maintain = global.maintainFlags;
 					for (let flag of maintain) {
 						infrastructure = flag.room.infrastructure;
@@ -133,8 +135,10 @@ module.exports = function() {
 					}
 				}
 				flagTarget: {
-					Game.flags[this.memory.flag].memory.builders = 0;
-					delete this.memory.flag;
+					if (this.memory.flag) {
+						Game.flags[this.memory.flag].memory.builders = 0;
+						delete this.memory.flag;
+					}
 					let maintain = global.maintainFlags;
 					for (let flag of maintain) {
 						infrastructure = flag.room.infrastructure;
