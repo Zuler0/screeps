@@ -45,13 +45,15 @@ module.exports = function() {
 					delete this.memory.flag;
 					let maintain = global.maintainFlags;
 					for (let flag of maintain) {
-						infrastructure = flag.room.infrastructure || [];
-						if (infrastructure.length && flag.memory.master == this.memory.home && flag.memory.repairers = 0) {
-							this.memory.flag = flag.name;
-							this.memory.target = infrastructure[0].id;
-							this.memory.targetOldHits = infrastructure[0].hits;
-							flag.memory.repairers = 1;
-							break flagTarget;
+						if (flag.room) {
+							infrastructure = flag.room.infrastructure;
+							if (infrastructure.length && flag.memory.master == this.memory.home && flag.memory.repairers = 0) {
+								this.memory.flag = flag.name;
+								this.memory.target = infrastructure[0].id;
+								this.memory.targetOldHits = infrastructure[0].hits;
+								flag.memory.repairers = 1;
+								break flagTarget;
+							}
 						}
 					}
 				}
