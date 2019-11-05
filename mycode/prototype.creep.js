@@ -41,36 +41,24 @@ module.exports = function() {
 					break;
 				}
 				flagTarget: {
-					if (!this.memory.flag) {
-						let maintain = global.maintainFlags;
-						for (let flag of maintain) {
-							switch (flag.memory.repairers) {
-								case 0: {
-									this.memory.flag = flag.name;
-									++flag.memory.repairers;
-									break flagTarget;
-								}
-								case 1:{
-									break;
-								}
-								default: {
-									this.memory.flag = flag.name;
-									flag.memory.repairers = 1;
-									break flagTarget;
-								}
-							}
+					Game.flags[this.memory.flag].memory.repairers = 0;
+					delete this.memory.flag;
+					let maintain = global.maintainFlags;
+					for (let flag of maintain) {
+						infrastructure = flag.room.infrastructure;
+						if (infrastructure.length &&
+								flag.memory.master == this.memory.home &&
+								flag.memory.repairers = 0) {
+							this.memory.flag = flag.name;
+							this.memory.target = infrastructure[0].id;
+							this.memory.targetOldHits = infrastructure[0].hits;
+							flag.memory.repairers = 1;
+							break flagTarget;
 						}
 					}
 				}
-				//get flag from memory
-				let flag = Game.flags[this.memory.flag];
-				if (flag && flag.room) {
-					infrastructure = flag.room.infrastructure;
-					if (infrastructure.length) {
-						this.memory.target = infrastructure[0].id;
-						this.memory.targetOldHits = infrastructure[0].hits;
-						break;
-					}
+				if (this.memory.flag) {
+					break;
 				}
 				//if repairer still doesn't have a target and walls are repairable, find a wall to repair
 				if (this.room.controller.level > 1 && walls.length) {
