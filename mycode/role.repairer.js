@@ -35,6 +35,7 @@ const roleRepairer = {
 			//if repairer has target get from memory
 			if (creep.memory.target) {
 				let target = Game.getObjectById(creep.memory.target);
+				let flag = Game.flags[creep.memory.flag];
 				//if target not valid clear from memory
 				if (!target) {
 					delete creep.memory.target;
@@ -48,7 +49,7 @@ const roleRepairer = {
 				//if target is still in memory, and in range repair it, if it isn't move into range of it
 				if (creep.memory.target) {
 					if (target.room != creep.room) {
-						creep.travelTo(target.room.controller);
+						creep.travelTo(flag);
 					}
 					else if (creep.repair(target) == ERR_NOT_IN_RANGE) {
 						creep.travelTo(target,{ range: 3});
