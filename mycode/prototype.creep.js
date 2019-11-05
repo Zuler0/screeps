@@ -133,32 +133,18 @@ module.exports = function() {
 					}
 				}
 				flagTarget: {
+					Game.flags[this.memory.flag].memory.builders = 0;
+					delete this.memory.flag;
 					let maintain = global.maintainFlags;
 					for (let flag of maintain) {
-						switch (flag.memory.builders) {
-							case 0: {
-								this.memory.flag = flag.name;
-								++flag.memory.builders;
-								break flagTarget;
-							}
-							case 1:{
-								break;
-							}
-							default: {
-								this.memory.flag = flag.name;
-								flag.memory.builders = 1;
-								break flagTarget;
-							}
+						infrastructure = flag.room.infrastructure;
+						if (infrastructure.length && flag.memory.master == this.memory.home && flag.memory.builders == 0) {
+							this.memory.flag = flag.name;
+							this.memory.target = infrastructure[0].id;
+							this.memory.targetOldHits = infrastructure[0].hits;
+							flag.memory.builders = 1;
+							break flagTarget;
 						}
-					}
-				}
-				let flag = Game.flags[this.memory.flag];
-				if (flag && flag.room) {
-					let flagTargets = flag.room.constuctSites;
-					if (flagTargets.length) {
-						this.memory.target = flagTargets[0].id;
-						this.memory.targetOldHits = flagTargets[0].hits;
-						break;
 					}
 				}
 				break;
