@@ -29,8 +29,6 @@ const roleBuilder = {
 					//if target not valid clear from memory and get new one
 					if (!target) {
 						delete creep.memory.target;
-						creep.getTarget();
-						target = Game.getObjectById(creep.memory.target);
 					}
 					//build target
 					if (creep.build(target) == ERR_NOT_IN_RANGE) {
