@@ -5,9 +5,11 @@ const roleRemoteHarvester = {
 			creep.getTarget();
 		}
 		let flag = Game.flags[creep.memory.flag];
-		creep.travelTo(flag);
-		if (global.harvestFlags.includes(flag)) {
-
+		if (flag.room != creep.room) {
+			creep.travelTo(flag);
+		}
+		else {
+			creep.mine();
 		}
 	}
 }
