@@ -73,39 +73,19 @@ module.exports = function() {
 				flagTarget: {
 					let claim = global.claimFlags;
 					for (let flag of claim) {
-						switch (flag.memory.claimers) {
-							case 0: {
-								this.memory.flag = flag.name;
-								++flag.memory.claimers;
-								break flagTarget;
-							}
-							case 1:{
-								break;
-							}
-							default: {
-								this.memory.flag = flag.name;
-								flag.memory.claimers = 1;
-								break flagTarget;
-							}
+						if (flag.memory.claimers != 1) {
+							this.memory.flag = flag.name;
+							flag.memory.claimers = 1;
+							break flagTarget;
 						}
 					}
 					let reserve = global.reserveFlags;
 					for (let flag of reserve) {
 						if (flag.memory.master == this.memory.home) {
-							switch (flag.memory.claimers) {
-								case 0: {
-									this.memory.flag = flag.name;
-									++flag.memory.claimers;
-									break flagTarget;
-								}
-								case 1:{
-									break;
-								}
-								default: {
-									this.memory.flag = flag.name;
-									flag.memory.claimers = 1;
-									break flagTarget;
-								}
+							if (flag.memory.claimers != 1) {
+								this.memory.flag = flag.name;
+								flag.memory.claimers = 1;
+								break flagTarget;
 							}
 						}
 					}
@@ -159,20 +139,10 @@ module.exports = function() {
 			case "harvester": {
 				sourceTarget: {
 					for (let source of this.room.sources) {
-						switch (source.memory.harvesters) {
-							case 0: {
-								this.memory.source = source.id;
-								++source.memory.harvesters;
-								break sourceTarget;
-							}
-							case 1:{
-								break;
-							}
-							default: {
-								this.memory.source = source.id;
-								source.memory.harvesters = 1;
-								break sourceTarget;
-							}
+						if (source.memory.harvesters != 1) {
+							this.memory.source = source.id;
+							source.memory.harvesters = 1;
+							break sourceTarget;
 						}
 					}
 				}
@@ -192,25 +162,16 @@ module.exports = function() {
 								++flag.memory.harvesters;
 							}
 							for (let source of flag.room.sources) {
-								switch (source.memory.harvesters) {
-									case 0: {
-										this.memory.source = source.id;
-										++source.memory.harvesters;
-										break flagTarget;
-									}
-									case 1:{
-										break;
-									}
-									default: {
-										this.memory.source = source.id;
-										source.memory.harvesters = 1;
-										break flagTarget;
-									}
+								if (source.memory.harvesters != 1) {
+									this.memory.source = source.id;
+									source.memory.harvesters = 1;
+									break flagTarget;
 								}
 							}
 						}
 					}
 				}
+				break;
 			}
 		}
 		if (this.memory.target) {
@@ -241,20 +202,10 @@ module.exports = function() {
 				if (!this.memory.source) {
 					sourceTarget: {
 						for (let source of this.room.sources) {
-							switch (source.memory.suppliers) {
-								case 0: {
-									this.memory.source = source.id;
-									++source.memory.suppliers;
-									break sourceTarget;
-								}
-								case 1:{
-									break;
-								}
-								default: {
-									this.memory.source = source.id;
-									source.memory.suppliers = 1;
-									break sourceTarget;
-								}
+							if (source.memory.suppliers != 1) {
+								this.memory.source = source.id;
+								source.memory.suppliers = 1;
+								break sourceTarget;
 							}
 						}
 					}
