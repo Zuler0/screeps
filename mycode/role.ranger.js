@@ -38,7 +38,9 @@ const roleRanger = {
 				}
 			}
 		}
-		let target = Game.getObjectById(creep.memory.target);
+		let target = creep.pos.findClosestByRange(targets);
+		creep.rangedAttack(target);
+		target = Game.getObjectById(creep.memory.target);
 		creep.rangedAttack(target)
 		if (creep.pos.getRangeTo(target) > 3) {
 			let path = PathFinder.search(creep.pos, _.map(targets, t => {
@@ -46,8 +48,6 @@ const roleRanger = {
 			})).path;
 			creep.moveByPath(path);
 		}
-		target = creep.pos.findClosestByRange(targets);
-		creep.rangedAttack(target);
 		if (creep.pos.getRangeTo(target) < 3) {
 			let path = PathFinder.search(creep.pos, _.map(targets, t => {
 				return{pos: t.pos, range:3};
