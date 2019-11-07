@@ -1,4 +1,5 @@
 const roleHarvester = require('role.harvester');
+const roleRemoteHarvester = require('role.remoteHarvester');
 const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
 const roleRepairer = require('role.repairer');
@@ -58,6 +59,9 @@ module.exports.loop = function() {
 					switch (creep.memory.role) {
 						case "harvester":
 							roleHarvester.run(creep);
+							break;
+						case "remoteHarvester":
+							roleRemoteHarvester.run(creep);
 							break;
 						case "upgrader":
 							roleUpgrader.run(creep);
