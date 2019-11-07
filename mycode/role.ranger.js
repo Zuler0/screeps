@@ -43,7 +43,7 @@ const roleRanger = {
 		if (creep.pos.getRangeTo(target) < 2) {
 			let path = PathFinder.search(creep.pos, _.map(targets, t => {
 				return{pos: t.pos, range:2};
-			}), {flee:true}).path[0];
+			}), {flee:true}).path;
 			creep.moveByPath(path);
 		}
 		target = Game.getObjectById(creep.memory.target);
