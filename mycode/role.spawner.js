@@ -6,29 +6,29 @@ function spawnNew(energyAvail, roleName, spawner) {
 	/** @type {String} */
 	let newName = spawner.name + ' ' + roleName + ' ' + Game.time;
 	console.log('Spawning new ' + roleName + ': ' + newName);
-	if (roleName == 'supplier') {
-		return spawner.spawnSupplier(energyAvail, newName);
-	} else if (roleName == 'harvester') {
-		let structByType = spawner.room.structByType;
-		let containers = structByType[STRUCTURE_CONTAINER] || [];
-		if (containers.length == 0) {
-			return spawner.spawnHarvester(energyAvail, newName);
-		} else {
-			return spawner.spawnCanHarvester(energyAvail, newName);
+	switch (roleName) {
+		case 'supplier': {
+			return spawner.spawnSupplier(energyAvail, newName);
+			break;
 		}
-	} else {
-		return spawner.spawnDynamicCreep(energyAvail, newName, roleName);
+		case 'harvester': {
+			let structByType = spawner.room.structByType;
+			let containers = structByType[STRUCTURE_CONTAINER] || [];
+			if (containers.length == 0) {
+				return spawner.spawnHarvester(energyAvail, newName);
+			} else {
+				return spawner.spawnCanHarvester(energyAvail, newName);
+			}
+			break;
+		}
+		case 'ranger': {
+			return spawner.spawnRanger(energyAvail, newName);
+			break;
+		}
+		default: {
+			return spawner.spawnDynamicCreep(energyAvail, newName, roleName);
+		}
 	}
-}
-/** @param {Room} room**/
-function spawnCreepsIfNecessary(room) {
-	/** @type {Array<Creep>} */
-	let creepsInRoom = spawner.room.myCreeps;
-	/** @type {Object<string, number>} */
-	let numberOfCreeps = {};
-	for (let role of listOfRoles) {
-        numberOfCreeps[role] = _.sum(creepsInRoom, (c) => c.memory.role == role);
-    }
 }
 const roleSpawner = {
 	/** @param {StructureSpawn} spawner */
@@ -88,8 +88,8 @@ const roleSpawner = {
 					++spawner.room.memory.builders;
 				}
 			}
-			else if (spawner.room.memory.rangers < 2) {
-				if (spawner.spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK], (spawner.name + ' ranger ' + Game.time), {memory: {role: 'ranger', home: spawner.room.name}}) == OK) {
+			else if (spawner.room.memory.rangers < 1) {
+				if (spawnNew(energyAvail, 'ranger', spawner) == OK) {
 					++spawner.room.memory.rangers;
 				}
 			}
