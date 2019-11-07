@@ -1,5 +1,6 @@
 const roleHarvester = require('role.harvester');
 const roleRemoteHarvester = require('role.remoteHarvester');
+const roleHauler = require('role.hauler');
 const roleUpgrader = require('role.upgrader');
 const roleBuilder = require('role.builder');
 const roleRepairer = require('role.repairer');
@@ -62,6 +63,9 @@ module.exports.loop = function() {
 							break;
 						case "remoteHarvester":
 							roleRemoteHarvester.run(creep);
+							break;
+						case "hauler":
+							roleHauler.run(creep);
 							break;
 						case "upgrader":
 							roleUpgrader.run(creep);
