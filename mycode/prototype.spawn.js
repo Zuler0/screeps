@@ -54,7 +54,7 @@ module.exports = function() {
 	/*This takes the parameters below and spawns a Supplier*/
 	/** @param {Energy} energyAvail @param {Creep Name} name **/
 	StructureSpawn.prototype.spawnSupplier =
-	function(energyAvail, name) {
+	function(energyAvail, name, roleName) {
 		let moveParts = Math.min(Math.floor(energyAvail / (BODYPART_COST[MOVE] + BODYPART_COST[CARRY] * 2)),12);
 		let carryParts = moveParts*2;
 		let body = [];
@@ -64,7 +64,7 @@ module.exports = function() {
 		for (let i = 0; i < moveParts; i++) {
 			body.push(MOVE);
 		}
-		return this.spawnCreep(body, name, {memory: {role: 'supplier', moveParts: moveParts, heavyParts: 0, home: this.room.name}});
+		return this.spawnCreep(body, name, {memory: {role: roleName, moveParts: moveParts, heavyParts: 0, home: this.room.name}});
 	}
 	/*This takes the parameters below and spawns a Harvester*/
 	/** @param {Energy} energyAvail @param {Creep Name} name **/
