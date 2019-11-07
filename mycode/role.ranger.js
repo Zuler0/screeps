@@ -38,8 +38,13 @@ const roleRanger = {
 				}
 			}
 		}
-		if (creep.hits < creep.hitsMax) {
-			creep.heal(creep);
+		let friendlyCreeps = room.friendlyCreeps;
+		friendlyCreeps.sort(c => creep.pos.getRangeTo(c));
+		for (let fCreep of friendlyCreeps) {
+			if (fCreep.hits < fCreep.hitsMax) {
+				creep.heal(fCreep);
+				break;
+			}
 		}
 		let target = creep.pos.findClosestByRange(targets);
 		creep.rangedAttack(target);
