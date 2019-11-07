@@ -7,7 +7,7 @@ const roleRanger = {
 			break;
 		}
 		let flag = Game.flags[creep.memory.flag];
-		if (creep.room != flag.room || !creep.memory.target) {
+		if (flag && creep.room != flag.room || !creep.memory.target) {
 			creep.travelTo(flag, {range: 2, ignoreRoads: true});
 		}
 		let targets = creep.room.enemyCreeps;
