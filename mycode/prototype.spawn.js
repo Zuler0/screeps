@@ -66,4 +66,26 @@ module.exports = function() {
 		}
 		return this.spawnCreep(body, name, {memory: {role: 'supplier', moveParts: moveParts, heavyParts: 0, home: this.room.name}});
 	}
+	/*This takes the parameters below and spawns a Harvester*/
+	/** @param {Energy} energyAvail @param {Creep Name} name **/
+	StructureSpawn.prototype.spawnRanger =
+	function(energyAvail, name) {
+		let otherParts = Math.floor(energyAvail / (BODYPART_COST[TOUGH] + BODYPART_COST[MOVE] * 5 + BODYPART_COST[RANGED_ATTACK]  * 3 + BODYPART_COST[HEAL]));
+		let rangedAttackParts = otherParts * 3;
+		let moveParts = otherParts * 5;
+		let body = [];
+		for (let i = 0; i < otherParts; i++) {
+			body.push(TOUGH);
+		}
+		for (let i = 0; i < otherParts; i++) {
+			body.push(MOVE);
+		}
+		for (let i = 0; i < otherParts; i++) {
+			body.push(RANGED_ATTACK);
+		}
+		for (let i = 0; i < otherParts; i++) {
+			body.push(HEAL);
+		}
+		return this.spawnCreep(body, name, {memory: {role: 'ranger', attackParts: otherParts * 3, moveParts: otherParts * 5, heavyParts: otherParts * 5, home: this.room.name}});
+	}
 };
