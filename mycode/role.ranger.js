@@ -38,6 +38,9 @@ const roleRanger = {
 				}
 			}
 		}
+		if (creep.hits < creep.hitsMax) {
+			creep.heal(creep);
+		}
 		let target = creep.pos.findClosestByRange(targets);
 		creep.rangedAttack(target);
 		target = Game.getObjectById(creep.memory.target);
