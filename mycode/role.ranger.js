@@ -42,7 +42,7 @@ const roleRanger = {
 		creep.rangedAttack(target);
 		if (creep.pos.getRangeTo(target) < 2) {
 			let path = PathFinder.search(creep.pos, _.map(targets, t => {
-				return{pos: t.pos, range:2};
+				return{pos: t.pos, range:3};
 			}), {flee:true}).path;
 			creep.moveByPath(path);
 		}
