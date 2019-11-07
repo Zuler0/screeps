@@ -37,7 +37,7 @@ const roleSupplier = {
 				}//otherwise tranfser to target, if it isn't in range move to it
 				else {
 					if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-						creep.travelTo(target, {ignoreCreeps: false});
+						creep.goTo(target);
 					}
 				}
 			}
