@@ -38,7 +38,7 @@ const roleRanger = {
 				}
 			}
 		}
-		let friendlyCreeps = room.friendlyCreeps;
+		let friendlyCreeps = creep.room.friendlyCreeps;
 		friendlyCreeps.sort(c => creep.pos.getRangeTo(c));
 		for (let fCreep of friendlyCreeps) {
 			if (fCreep.hits < fCreep.hitsMax) {
