@@ -5,6 +5,7 @@ module.exports = function () {
 		global.claimFlags = [];
 		global.harvestFlags = [];
 		global.attackFlags = [];
+		global.guardFlags = [];
 		for (let name in Game.flags) {
 			++global.flagCount;
 			let flag = Game.flags[name];
@@ -22,6 +23,9 @@ module.exports = function () {
 			}
 			if (name.includes("Attack")) {
 				global.attackFlags.push(flag);
+			}
+			if (name.includes("Guard")) {
+				global.guardFlags.push(flag);
 			}
 		}
 		for (let name in Game.rooms) {
