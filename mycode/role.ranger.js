@@ -42,7 +42,7 @@ const roleRanger = {
 		creep.rangedAttack(target);
 		target = Game.getObjectById(creep.memory.target);
 		creep.rangedAttack(target)
-		let time = Game.cpu.getUsed();
+		//let time = Game.cpu.getUsed();
 		if (creep.pos.getRangeTo(target) > 2) {
 			let path = PathFinder.search(creep.pos, _.map(targets, t => {
 				return{pos: t.pos, range:2};
@@ -55,7 +55,7 @@ const roleRanger = {
 			}), {flee:true}).path;
 			creep.moveByPath(path);
 		}
-		console.log(creep.name + " used " + (Game.cpu.getUsed()- time).toFixed(4));
+		//console.log(creep.name + " used " + (Game.cpu.getUsed()- time).toFixed(4));
 	}
 }
 profiler.registerObject(roleRanger, 'roleRanger');
