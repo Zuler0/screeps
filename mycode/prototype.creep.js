@@ -153,7 +153,7 @@ module.exports = function() {
 					let harvest = global.harvestFlags;
 					for (let flag of harvest) {
 						if (flag.memory.master == this.memory.home) {
-							if (!flag.memory.harvesters) {
+							if (!flag.memory.harvesters || flag.memory.harvesters == 0) {
 								this.memory.flag = flag.name;
 								flag.memory.harvesters = 1;
 							}
@@ -173,12 +173,26 @@ module.exports = function() {
 				}
 				break;
 			}
+			case "hauler": {
+				flagTarget: {
+					let harvest = global.harvestFlags;
+					for (let flag of harvest) {
+						if (flag.memory.master == this.memory.home) {
+							if (!flag.memory.haulers || flag.memory.haulers == 0) {
+								this.memory.flag = flag.name;
+								flag.memory.haulers = 1;
+							}
+						}
+					}
+				}
+				break;
+			}
 		}
 		if (this.memory.target) {
 			this.memory.targetRoom = Game.getObjectById(this.memory.target).room.name;
 		}
-		else if (this.memory.source) {
-			this.memory.targetRoom = Game.getObjectById(this.memory.source).room.name;
+		else if (this.memory.flag) {
+			this.memory.targetRoom = Game.flags(this.memory.flag).room.name;
 		}
 	}
 
@@ -195,7 +209,7 @@ module.exports = function() {
 		let tombstones = this.room.tombstones;
 		//run based off role
 		switch (this.memory.role) {
-			case "supplier": {//if supplier
+			case "supplier": {
 				let targets;
 				let target;
 				//interate through sources
@@ -243,7 +257,14 @@ module.exports = function() {
 				}
 				break;
 			}
-			default: { //if not supplier
+			case "hauler": {
+				let targets = _.filter(containers, (s) => s.store[RESOURCE_ENERGY] >= Math.min(200, this.store.getFreeCapacity(RESOURCE_ENERGY)));
+				let target = this.pos.findClosestByRange(targets);
+				if (this.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+					this.goTo(target);
+				}
+			}
+			default: {
 				let targets;
 				let target;
 				if (ruins.length) {
@@ -319,6 +340,7 @@ module.exports = function() {
 	function(target) {
 		//switch based off role
 		switch (this.memory.role) {
+			case "hauler":
 			case "supplier": {
 				if (this.store[RESOURCE_ENERGY] <= this.store.getCapacity()/10) {
 					this.travelTo(target, {offRoad: true});
