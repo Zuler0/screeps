@@ -17,6 +17,24 @@ const mem_clear = {
 						}
 						break;
 					}
+					case "remoteHarvester": {
+						--room.memory.remoteHarvesters;
+						if (creep.flag && Game.flags[creep.flag]) {
+							--Game.flags[creep.flag].memory.harvesters;
+						}
+						if (creep.source) {
+							let source = Game.getObjectById(creep.source);
+							--source.memory.harvesters;
+						}
+						break;
+					}
+					case "hauler": {
+						--room.memory.haulers;
+						if (creep.flag && Game.flags[creep.flag]) {
+							--Game.flags[creep.flag].memory.haulers;
+						}
+						break;
+					}
 					case "upgrader": {
 						--room.memory.upgraders;
 						break;
