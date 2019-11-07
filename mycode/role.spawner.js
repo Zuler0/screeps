@@ -88,7 +88,7 @@ const roleSpawner = {
 					++spawner.room.memory.builders;
 				}
 			}
-			else if (spawner.room.memory.rangers < 1) {
+			else if (spawner.room.memory.rangers < 2) {
 				if (spawner.spawnCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK,RANGED_ATTACK], (spawner.name + ' ranger ' + Game.time), {memory: {role: 'ranger', home: spawner.room.name}}) == OK) {
 					++spawner.room.memory.rangers;
 				}
