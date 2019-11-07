@@ -38,18 +38,21 @@ const roleRanger = {
 				}
 			}
 		}
-		let target = creep.pos.findClosestByRange(targets);
+		let target = Game.getObjectById(creep.memory.target);
+		creep.rangedAttack(target)
+		if (creep.pos.getRangeTo(target) > 3) {
+			let path = PathFinder.search(creep.pos, _.map(targets, t => {
+				return{pos: t.pos, range:2};
+			})).path;
+			creep.moveByPath(path);
+		}
+		target = creep.pos.findClosestByRange(targets);
 		creep.rangedAttack(target);
-		if (creep.pos.getRangeTo(target) < 2) {
+		if (creep.pos.getRangeTo(target) < 3) {
 			let path = PathFinder.search(creep.pos, _.map(targets, t => {
 				return{pos: t.pos, range:3};
 			}), {flee:true}).path;
 			creep.moveByPath(path);
-		}
-		target = Game.getObjectById(creep.memory.target);
-		creep.rangedAttack(target)
-		if (creep.pos.getRangeTo(target) > 2) {
-			creep.travelTo(target, {ignoreCreeps: false, range: 2, ignoreRoads: true, repath: 1});
 		}
 	}
 }
