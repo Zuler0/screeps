@@ -1,16 +1,31 @@
 const profiler = require('screeps-profiler');
 const roleRanger = {
 	run: function(creep) {
-		let attack = global.attackFlags;
-		for (let flag of attack) {
-			creep.memory.flag = flag.name;
-			break;
+		flag: {
+			let attack = global.attackFlags;
+			for (let flag of attack) {
+				creep.memory.flag = flag.name;
+				creep.memory.status = "attack";
+				break;
+			}
+			if (creep.memory.flag) {
+				break flag;
+			}
+			let guard = global.guardFlags;
+			for (let flag of guard) {
+				creep.memory.flag = flag.name;
+				creep.memory.status = "guard";
+				break;
+			}
 		}
 		let flag = Game.flags[creep.memory.flag];
 		if (flag && creep.room != flag.room || !creep.memory.target) {
 			creep.travelTo(flag, {range: 2, ignoreRoads: true});
 		}
 		let targets = creep.room.enemyCreeps;
+		if (creep.memory.status == "guard") {
+			targets = creep.pos.findInRange(targets, 10);
+		}
 		if (creep.memory.target) {
 			let target = Game.getObjectById(creep.memory.target);
 			if (!target) {
