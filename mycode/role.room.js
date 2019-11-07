@@ -1,4 +1,5 @@
 const profiler = require('screeps-profiler');
+const roleLink = require('role.link');
 const roleRoom = {
 	run: function(room) {
 		const hitsPercentage = (s) => (s.hits/s.hitsMax);
@@ -13,6 +14,10 @@ const roleRoom = {
 		room.links = room.structByType[STRUCTURE_LINK];
 		if (room.storage) {
 			room.storageLink = room.storage.pos.findClosestByRange(room.links);
+			for (let id in room.links) {
+				let link = room.links[id];
+				roleLink.run(link);
+			}
 		}
 		[room.walls, room.infrastructure] = _.partition(room.damStructures, (s) => s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART);
 		room.walls = _.sortBy(room.walls, (s) => s.hits);
