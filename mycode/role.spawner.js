@@ -8,7 +8,11 @@ function spawnNew(energyAvail, roleName, spawner) {
 	console.log('Spawning new ' + roleName + ': ' + newName);
 	switch (roleName) {
 		case 'supplier': {
-			return spawner.spawnSupplier(energyAvail, newName);
+			return spawner.spawnSupplier(energyAvail, newName, roleName);
+			break;
+		}
+		case 'hauler': {
+			return spawner.spawnSupplier(energyAvail, newName, roleName);
 			break;
 		}
 		case 'harvester': {
