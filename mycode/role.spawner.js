@@ -92,7 +92,7 @@ const roleSpawner = {
 					++spawner.room.memory.builders;
 				}
 			}
-			else if (spawner.room.memory.rangers < 1 && global.attackFlags.length > 0 || global.guardFlags.length > 0) {
+			else if (spawner.room.memory.rangers < 1 && (global.attackFlags.length > 0 || global.guardFlags.length > 0)) {
 				if (spawnNew(energyAvail, 'ranger', spawner) == OK) {
 					++spawner.room.memory.rangers;
 				}
