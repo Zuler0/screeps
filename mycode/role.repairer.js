@@ -21,11 +21,16 @@ const roleRepairer = {
 				Math.min(creep.pos.y + 3, 48),
 				Math.min(creep.pos.x + 3, 48), true);
 			for (let structure of structures) {
+				let targets = [];
 				let target = structure['structure'];
+				targets.push(target);
 				//if it won't over repair target repair it
-				if (target.hits <= target.hitsMax - creep.memory.workParts * 100) {
-					creep.repair(target);
-					break;
+				if (targets.length == structures.length) {
+					targets.sort(s => s.hits);
+					target = targets[0];
+					if (target.hits <= target.hitsMax - creep.memory.workParts * 100) {
+						creep.repair(target);
+					}
 				}
 			}
 			//get target if it doesn't have one
