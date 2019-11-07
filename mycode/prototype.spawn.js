@@ -77,10 +77,10 @@ module.exports = function() {
 		for (let i = 0; i < otherParts; i++) {
 			body.push(TOUGH);
 		}
-		for (let i = 0; i < otherParts; i++) {
+		for (let i = 0; i < moveParts; i++) {
 			body.push(MOVE);
 		}
-		for (let i = 0; i < otherParts; i++) {
+		for (let i = 0; i < rangedAttackParts; i++) {
 			body.push(RANGED_ATTACK);
 		}
 		for (let i = 0; i < otherParts; i++) {
